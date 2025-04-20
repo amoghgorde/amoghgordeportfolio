@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amogh Gorde | Oracle Database Consultant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #6a0dad;
+            --secondary: #9b59b6;
+            --dark: #121212;
+            --light: #f0f0f0;
+            --text: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --bg-gradient: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+            --card-bg: rgba(26, 0, 51, 0.5);
+            --card-border: rgba(155, 89, 182, 0.2);
+            --star-color: white;
+            --moon-display: none;
+            --sun-display: none;
+            --star-glow: none;
+            --transition-time: 0.6s;
+            --transition-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --primary: #7e22ce;
+            --secondary: #8b5cf6;
+            --dark: #f8fafc;
+            --light: #1e293b;
+            --text: #1e293b;
+            --text-secondary: #475569;
+            --bg-gradient: linear-gradient(135deg, #e9d5ff 0%, #f3e8ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(139, 92, 246, 0.2);
+            --star-color: black;
+            --moon-display: none;
+            --sun-display: block;
+            --star-glow: 0 0 10px rgba(139, 92, 246, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background var(--transition-time) var(--transition-easing), 
+                        color var(--transition-time) var(--transition-easing);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Galaxy Background Effect */
+        .galaxy-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(106, 13, 173, 0.2) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, rgba(155, 89, 182, 0.2) 0%, transparent 30%);
+            z-index: 0;
+            pointer-events: none;
+            transition: background var(--transition-time) var(--transition-easing);
+        }
+
+        [data-theme="light"] .galaxy-bg {
+            background: radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, rgba(167, 139, 250, 0.1) 0%, transparent 30%);
+        }
+
+        /* Moon for Dark Mode */
+        .moon {
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #f8fafc;
+            box-shadow: 0 0 30px rgba(248, 250, 252, 0.5);
+            z-index: -1;
+            display: var(--moon-display);
+            transition: all var(--transition-time) var(--transition-easing);
+        }
+
+        /* Sun for Light Mode */
+        .sun {
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #FFD700;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+            z-index: -1;
+            display: var(--sun-display);
+            transition: all var(--transition-time) var(--transition-easing);
+        }
+
+        .sun::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-time) var(--transition-easing);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-toggle i {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        /* Header & Profile Section */
+        .profile-header {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            transition: all var(--transition-time) var(--transition-easing);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary);
+            box-shadow: 0 0 30px rgba(155, 89, 182, 0.5);
+            margin-bottom: 20px;
+            transition: all var(--transition-time) var(--transition-easing);
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(155, 89, 182, 0.7);
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            background: linear-gradient(90deg, var(--light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            transition: background var(--transition-time) var(--transition-easing);
+        }
+
+        .profile-title {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-weight: 400;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .contact-info a {
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: rgba(155, 89, 182, 0.1);
+        }
+
+        .contact-info a:hover {
+            color: var(--secondary);
+            background: rgba(155, 89, 182, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(155, 89, 182, 0.2);
+        }
+
+        .social-links a:hover {
+            color: white;
+            background: var(--secondary);
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+        }
+
+        /* Section Styles */
+        .section-title {
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 3px;
+            transition: all var(--transition-time) var(--transition-easing);
+        }
+
+        /* Experience Section */
+        .experience-item {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            transition: all var(--transition-time) var(--transition-easing);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .experience-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(106, 13, 173, 0.3);
+            border-color: rgba(155, 89, 182, 0.4);
+        }
+
+        .experience-details {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .company-name {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 1.3rem;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .job-title {
+            font-weight: 500;
+            color: var(--text);
+            font-size: 1.1rem;
+            opacity: 0.9;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .experience-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .experience-description {
+            margin-top: 20px;
+        }
+
+        .experience-description ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .experience-description li {
+            margin-bottom: 10px;
+            position: relative;
+            line-height: 1.7;
+            color: var(--text);
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .experience-description li:before {
+            content: "▹";
+            position: absolute;
+            left: -20px;
+            color: var(--secondary);
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        /* Education & Certifications */
+        .education-item, .certification-item {
+            margin-bottom: 20px;
+            padding: 25px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            transition: all var(--transition-time) var(--transition-easing);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .education-item:hover, .certification-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(106, 13, 173, 0.2);
+        }
+
+        .institution {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 5px;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .degree {
+            color: var(--text-secondary);
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .skill-category {
+            padding: 25px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            transition: all var(--transition-time) var(--transition-easing);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(106, 13, 173, 0.2);
+        }
+
+        .skill-category h4 {
+            margin-top: 0;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .skill-list {
+            list-style-type: none;
+        }
+
+        .skill-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+            color: var(--text);
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .skill-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        /* Articles Section */
+        .articles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .article-card {
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            transition: all var(--transition-time) var(--transition-easing);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(106, 13, 173, 0.3);
+            border-color: rgba(155, 89, 182, 0.4);
+        }
+
+        .article-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform var(--transition-time) var(--transition-easing);
+        }
+
+        .article-card:hover .article-thumbnail {
+            transform: scale(1.05);
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-title {
+            font-size: 1.2rem;
+            margin: 0 0 10px;
+            color: var(--text);
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .article-excerpt {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            transition: color var(--transition-time) var(--transition-easing);
+        }
+
+        .article-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            gap: 5px;
+        }
+
+        .article-link:hover {
+            color: var(--text);
+            transform: translateX(5px);
+        }
+
+        /* Floating Stars Animation */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--star-color);
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+            box-shadow: var(--star-glow);
+            transition: all var(--transition-time) var(--transition-easing);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: var(--opacity); transform: scale(1.1); }
+        }
+
+        /* Apple-like design elements */
+        .apple-nav-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 90;
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.5s ease;
+        }
+
+        [data-theme="dark"] .apple-nav-effect {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        body.scrolled .apple-nav-effect {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .experience-details {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .articles-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .moon, .sun {
+                top: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-name {
+                font-size: 1.8rem;
+            }
+            
+            .profile-title {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .experience-item, .education-item, .certification-item, .skill-category {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="galaxy-bg"></div>
+    <div class="moon"></div>
+    <div class="sun"></div>
+    <div class="stars" id="stars"></div>
+    <div class="apple-nav-effect"></div>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="container">
+        <!-- Profile Header -->
+        <header class="profile-header">
+            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGGlJq5OrQVJQ/profile-displayphoto-shrink_400_400/B4DZY_u8oFHwAo-/0/1744825994408?e=1750291200&v=beta&t=ZqiIK5vYjovqAJYAPvlZ2_dZ2M2izxG0kZ-yKE5WONg" alt="Amogh Gorde" class="profile-photo">
+            <h1 class="profile-name">AMOGH PANDURANG GORDE</h1>
+            <h2 class="profile-title">Oracle Database Consultant</h2>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/amoghgorde" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/amoghgorde" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.credly.com/users/amogh-gorde/badges" target="_blank" title="Credly Badges"><i class="fas fa-award"></i></a>
+            </div>
+        </header>
+
+        <!-- Experience Section -->
+        <section>
+            <h2 class="section-title">Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-details">
+                    <div>
+                        <span class="company-name">Clover Infotech</span>
+                        <span class="job-title">Oracle Database Consultant</span>
+                    </div>
+                    <div>
+                        <span class="experience-date">08/2023 - Present</span>
+                    </div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Working for Axis Bank, one of India's top 5 private banks, managing Oracle RAC environments with high availability and Big File support.</li>
+                        <li>Administering and tuning Oracle and PostgreSQL databases to ensure optimal performance and availability.</li>
+                        <li>Implementing disaster recovery solutions using Oracle Data Guard and performing database restores using RMAN, Data Pump, Flash Backup, and Oracle Golden Gate.</li>
+                        <li>Configuring and managing Oracle Golden Gate Replication for real-time data replication between Oracle and PostgreSQL databases.</li>
+                        <li>Setup Local TDE in Oracle Database using wallet for data masking/security for data at rest.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="experience-item">
+                <div class="experience-details">
+                    <div>
+                        <span class="company-name">Wipro Technologies Ltd</span>
+                        <span class="job-title">Oracle Database Administrator</span>
+                    </div>
+                    <div>
+                        <span class="experience-date">07/2022 - 08/2023</span>
+                    </div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Worked for HDFC Bank, India's largest private bank, integrating Oracle Database Servers into the OEM tool to enhance automation and streamline administration.</li>
+                        <li>Monitored Oracle Database Servers using OEM to ensure optimal performance, proactively identifying and reporting issues.</li>
+                        <li>Performed database health checks and capacity planning to forecast growth and recommend scaling strategies.</li>
+                        <li>Created and managed database user accounts based on user requests, ensuring adherence to security policies.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section>
+            <h2 class="section-title">Education</h2>
+            <div class="education-item">
+                <h3 class="institution">IGNOU</h3>
+                <p class="degree">Master of Science in Information and Security (MSc.IS)</p>
+            </div>
+            <div class="education-item">
+                <h3 class="institution">Vidyalankar School of Information and Technology</h3>
+                <p class="degree">Bachelor of Science in Technology (BSc.IT)</p>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section>
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h4>Databases</h4>
+                    <ul class="skill-list">
+                        <li>Oracle (Primary)</li>
+                        <li>PostgreSQL</li>
+                        <li>Cloud Spanner</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Programming</h4>
+                    <ul class="skill-list">
+                        <li>Python</li>
+                        <li>SQL</li>
+                        <li>PL/SQL</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Cloud Platforms</h4>
+                    <ul class="skill-list">
+                        <li>AWS</li>
+                        <li>GCP</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Security</h4>
+                    <ul class="skill-list">
+                        <li>TDE</li>
+                        <li>Database encryption</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section>
+            <h2 class="section-title">Certifications</h2>
+            <div class="certification-item">
+                <ul class="skill-list">
+                    <li><strong>Oracle Cloud Infrastructure Architect Associate</strong></li>
+                    <li><strong>Oracle Cloud Data Management Foundations Associate</strong></li>
+                    <li><strong>AWS Certified Cloud Practitioner</strong></li>
+                    <li><strong>Oracle Cloud Infrastructure Foundations Associate</strong></li>
+                    <li><strong>Microsoft Certified: Security, Compliance, and Identity Fundamentals</strong></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Articles Section -->
+        <section>
+            <h2 class="section-title">Latest Articles</h2>
+            <div class="articles-container">
+                <div class="article-card">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D12AQHbziszuF8sRQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1723231548941?e=1750291200&v=beta&t=PFgJDWUlEQl2hLlU1T7as4U_UoCr45MIIBw4H7zwfUE" alt="Oracle DATAGUARD" class="article-thumbnail">
+                    <div class="article-content">
+                        <h3 class="article-title">Oracle DATAGUARD</h3>
+                        <p class="article-excerpt">ORACLE DATAGUARD SETUP WITH STANDBY DATABASE CREATION.</p>
+                        <a href="https://www.linkedin.com/pulse/oracle-dataguard-setup-standby-database-creation-amogh-gorde-tq42f/?trackingId=iDfbOE6bSeiO08X1v9Mc1w%3D%3D" target="_blank" class="article-link">Read more <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D12AQHrkg5_6fq6Tw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1723232665244?e=1750291200&v=beta&t=h9d5lnPEvU3A2gbYF_1VeoXjsTxkurCo0Afw-ZW7Mck" alt="Oracle ASM" class="article-thumbnail">
+                    <div class="article-content">
+                        <h3 class="article-title">ORACLE ASM</h3>
+                        <p class="article-excerpt">ORACLE ASM INTERVIEW QUESTIONS.</p>
+                        <a href="https://www.linkedin.com/pulse/oracle-asm-interview-questions-amogh-gorde-olfyf/?trackingId=lCJEmtALRo%2BpFjjau8PzHg%3D%3D" target="_blank" class="article-link">Read more <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const body = document.body;
+        const moon = document.querySelector('.moon');
+        const sun = document.querySelector('.sun');
+        
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        } else if (!prefersDark) {
+            body.setAttribute('data-theme', 'light');
+            updateThemeIcon('light');
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            // Animate the toggle icon
+            themeIcon.style.transform = 'scale(0)';
+            
+            setTimeout(() => {
+                body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+                themeIcon.style.transform = 'scale(1)';
+                
+                // Animate celestial bodies
+                if (newTheme === 'light') {
+                    sun.style.transform = 'scale(0)';
+                    setTimeout(() => {
+                        sun.style.transform = 'scale(1)';
+                    }, 300);
+                } else {
+                    moon.style.transform = 'scale(0)';
+                    setTimeout(() => {
+                        moon.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            }, 300);
+        });
+        
+        function updateThemeIcon(theme) {
+            if (theme === 'light') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                moon.style.display = 'none';
+                sun.style.display = 'block';
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                moon.style.display = 'block';
+                sun.style.display = 'none';
+            }
+        }
+        
+        // Create floating stars
+        const starsContainer = document.getElementById('stars');
+        const starCount = 150;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // Random properties
+            const size = Math.random() * 3;
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const opacity = Math.random() * 0.8 + 0.2;
+            const duration = Math.random() * 5 + 3;
+            const delay = Math.random() * 5;
+            
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${posX}%`;
+            star.style.top = `${posY}%`;
+            star.style.setProperty('--opacity', opacity);
+            star.style.setProperty('--duration', `${duration}s`);
+            star.style.animationDelay = `${delay}s`;
+            
+            starsContainer.appendChild(star);
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Apple-like scroll effect for navigation
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.body.classList.add('scrolled');
+            } else {
+                document.body.classList.remove('scrolled');
+            }
+        });
+        
+        // Add smooth transitions when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 50);
+        });
+        
+        // Set initial opacity to 0 for fade-in effect
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+    </script>
+</body>
+</html>
