@@ -4,8 +4,6 @@ const themeIcon = themeToggle.querySelector('i');
 const body = document.body;
 const moon = document.querySelector('.moon');
 const sun = document.querySelector('.sun');
-const stars = document.querySelectorAll('.star');
-const galaxyBg = document.querySelector('.galaxy-bg');
 
 // Initialize theme
 function initTheme() {
@@ -73,4 +71,4 @@ themeToggle.addEventListener('click', async () => {
 // Initialize
 initTheme();
 
-// [Copy remaining JavaScript from your original script tag here]
+// [Rest of your original JavaScript]
