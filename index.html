@@ -9,50 +9,62 @@ add whats the website is made using in the end -
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base Styles */
-    :root {
-    /* (Keep existing light mode variables the same) */
-    --primary: #6a0dad;
-    --secondary: #9b59b6;
-    --dark: #121212;
-    --light: #f0f0f0;
-    --text: #e0e0e0;
-    --text-secondary: #b0b0b0;
-    --bg-gradient: linear-gradient(135deg, #1a0033 0%, #330066 100%);
-    --card-bg: rgba(26, 0, 51, 0.5);
-    --card-border: rgba(155, 89, 182, 0.2);
-    --star-color: white;
+/* ===== Light Mode (Soft Yellow) ===== */
+:root {
+    --primary: #d4a017;           /* Warm gold primary */
+    --secondary: #e9c46a;         /* Soft yellow secondary */
+    --dark: #fffdf5;              /* Cream white background */
+    --light: #3a3a3a;             /* Dark gray for text */
+    --text: #4a4a4a;              /* Primary text */
+    --text-secondary: #6c757d;    /* Secondary text */
+    --bg-gradient: linear-gradient(135deg, #fffdf5 0%, #fff8e1 100%);
+    --card-bg: rgba(255, 253, 245, 0.95);
+    --card-border: rgba(233, 196, 106, 0.3);
+    --star-color: #3a3a3a;
     --moon-display: none;
-    --sun-display: none;
-    --star-glow: none;
+    --sun-display: block;
+    --star-glow: 0 0 10px rgba(233, 196, 106, 0.4);
 }
 
-/* Updated Dark Mode with Blue Gradient */
+/* Sun styling */
+.sun {
+    background: #ffd43b;
+    box-shadow: 0 0 40px rgba(255, 212, 59, 0.6);
+}
+
+/* Light mode galaxy effect */
+.galaxy-bg {
+    background: radial-gradient(circle at 20% 30%, rgba(255, 213, 79, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(233, 196, 106, 0.08) 0%, transparent 30%);
+}
+
+/* ===== Dark Mode (Blue Gradient) ===== */
 [data-theme="dark"] {
-    --primary: #3498db;
-    --secondary: #2980b9;
-    --dark: #0d1b2a;
-    --light: #e0e1dd;
+    --primary: #3498db;           /* Azure blue */
+    --secondary: #5dade2;         /* Lighter blue */
+    --dark: #0d1b2a;             /* Navy background */
+    --light: #e0e1dd;            /* Off-white text */
     --text: #e0e1dd;
     --text-secondary: #a8b2c0;
     --bg-gradient: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
-    --card-bg: rgba(26, 54, 93, 0.5);
-    --card-border: rgba(41, 128, 185, 0.2);
+    --card-bg: rgba(26, 54, 93, 0.6);
+    --card-border: rgba(41, 128, 185, 0.25);
     --star-color: white;
     --moon-display: block;
     --sun-display: none;
-    --star-glow: 0 0 10px rgba(52, 152, 219, 0.7);
+    --star-glow: 0 0 10px rgba(52, 152, 219, 0.6);
 }
 
-/* Update the galaxy background for dark mode */
-[data-theme="dark"] .galaxy-bg {
-    background: radial-gradient(circle at 20% 30%, rgba(52, 152, 219, 0.2) 0%, transparent 30%),
-                radial-gradient(circle at 80% 70%, rgba(41, 128, 185, 0.2) 0%, transparent 30%);
-}
-
-/* Update moon color to match blue theme */
+/* Moon styling */
 .moon {
     background: #e0f2fe;
     box-shadow: 0 0 30px rgba(224, 242, 254, 0.5);
+}
+
+/* Dark mode galaxy effect */
+[data-theme="dark"] .galaxy-bg {
+    background: radial-gradient(circle at 20% 30%, rgba(52, 152, 219, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(41, 128, 185, 0.15) 0%, transparent 30%);
 }
 
         body {
@@ -626,6 +638,123 @@ add whats the website is made using in the end -
         }
     </style>
 </head>
+html {
+    transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+body {
+    transition: 
+        background var(--transition-time) var(--transition-easing),
+        color var(--transition-time) var(--transition-easing);
+}
+
+[data-theme] {
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-toggle {
+    transition: 
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.3s ease,
+        background 0.6s ease,
+        border-color 0.6s ease;
+}
+
+.moon, .sun {
+    transition: 
+        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.6s ease,
+        background 0.6s ease,
+        opacity 0.6s ease;
+}
+
+.galaxy-bg {
+    transition: background 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.star {
+    transition: 
+        background 0.8s ease,
+        box-shadow 0.8s ease;
+}
+
+/* Update the existing theme toggle JavaScript */
+<script>
+    // Smoother Theme Toggle Functionality
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('i');
+    const body = document.body;
+    const moon = document.querySelector('.moon');
+    const sun = document.querySelector('.sun');
+    const stars = document.querySelectorAll('.star');
+    const galaxyBg = document.querySelector('.galaxy-bg');
+    
+    // Preload transition styles
+    document.documentElement.style.setProperty('--transition-time', '0.6s');
+    document.documentElement.style.setProperty('--transition-easing', 'cubic-bezier(0.22, 1, 0.36, 1)');
+    
+    // Theme switch with smoother transitions
+    function switchTheme(newTheme) {
+        return new Promise((resolve) => {
+            // Start transition
+            body.style.pointerEvents = 'none'; // Prevent interactions during transition
+            document.documentElement.style.setProperty('--transition-time', '0.6s');
+            
+            // Animate celestial bodies
+            if (newTheme === 'light') {
+                moon.style.transform = 'scale(0) rotate(180deg)';
+                setTimeout(() => {
+                    moon.style.display = 'none';
+                    sun.style.display = 'block';
+                    sun.style.transform = 'scale(0)';
+                    setTimeout(() => {
+                        sun.style.transform = 'scale(1) rotate(0deg)';
+                    }, 50);
+                }, 300);
+            } else {
+                sun.style.transform = 'scale(0) rotate(180deg)';
+                setTimeout(() => {
+                    sun.style.display = 'none';
+                    moon.style.display = 'block';
+                    moon.style.transform = 'scale(0)';
+                    setTimeout(() => {
+                        moon.style.transform = 'scale(1) rotate(0deg)';
+                    }, 50);
+                }, 300);
+            }
+            
+            // Change theme after celestial animation starts
+            setTimeout(() => {
+                body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+                
+                // Animate stars
+                stars.forEach(star => {
+                    star.style.transition = 'all 0.8s ease';
+                });
+                
+                // Enable interactions after transition
+                setTimeout(() => {
+                    body.style.pointerEvents = 'auto';
+                    resolve();
+                }, 600);
+            }, 150);
+        });
+    }
+    
+    themeToggle.addEventListener('click', async () => {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Animate the toggle icon
+        themeIcon.style.transform = 'rotate(180deg) scale(0.8)';
+        await switchTheme(newTheme);
+        themeIcon.style.transform = 'rotate(0deg) scale(1)';
+    });
+    
+
+</script>
 
 <body>
     <div class="galaxy-bg"></div>
