@@ -377,6 +377,74 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Articles Section */
+.article-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.article-thumbnail {
+    width: 100%;
+    height: 200px; /* Fixed height for consistency */
+    object-fit: cover; /* Maintain aspect ratio, crop if needed */
+    object-position: center;
+    border-radius: 0.5rem 0.5rem 0 0; /* Rounded top corners */
+    transition: transform var(--transition-time) var(--transition-easing);
+}
+
+.article-card:hover .article-thumbnail {
+    transform: scale(1.05); /* Subtle zoom effect on hover */
+}
+
+.article-content {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.article-excerpt {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.article-link {
+    color: var(--secondary);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all var(--transition-time) var(--transition-easing);
+}
+
+.article-link:hover {
+    color: var(--primary);
+    transform: translateX(0.25rem);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .article-thumbnail {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-thumbnail {
+        height: 120px;
+    }
+}
+        
     </style>
 </head>
 
@@ -393,7 +461,7 @@
     <div class="container">
         <!-- Profile Header -->
         <header class="profile-header">
-            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGGlJq5OrQVJQ/profile-displayphoto-shrink_400_400/B4DZY_u8oFHwAo-/0/1744825994408?e=1750291200&v=beta&t=ZqiIK5vYjovqAJYAPvlZ2_dZ2M2izxG0kZ-yKE5WONg" alt="Amogh Gorde" class="profile-photo">
+            <img src="https://media.licdn.com/dms/image/v2/D4D03AQF7NgQt1kpXVg/profile-displayphoto-shrink_400_400/B4DZZR2wP8HIAg-/0/1745130030560?e=1750896000&v=beta&t=dZUmAxcQNM1acMYd-E01hiT3fdv16eR86PxgzP9s00A" alt="Amogh Gorde" class="profile-photo">
             <h1 class="profile-name">AMOGH PANDURANG GORDE</h1>
             <h2 class="profile-title">Oracle Database Consultant</h2>
             <div class="contact-info">
