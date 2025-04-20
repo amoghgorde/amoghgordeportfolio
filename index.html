@@ -7,54 +7,63 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base Styles */
-/* Updated Light Mode with Soft Yellow Theme */
+/* ===== Light Mode (Soft Yellow) ===== */
 :root {
-    --primary: #d4a017;  /* Warm gold/yellow */
-    --secondary: #e9c46a;  /* Soft yellow */
-    --dark: #f8f9fa;  /* Very light gray */
-    --light: #343a40;  /* Dark gray for text */
-    --text: #495057;  /* Dark gray text */
-    --text-secondary: #6c757d;  /* Medium gray */
-    --bg-gradient: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
-    --card-bg: rgba(255, 253, 245, 0.9);
+    --primary: #d4a017;           /* Warm gold primary */
+    --secondary: #e9c46a;         /* Soft yellow secondary */
+    --dark: #fffdf5;              /* Cream white background */
+    --light: #3a3a3a;             /* Dark gray for text */
+    --text: #4a4a4a;              /* Primary text */
+    --text-secondary: #6c757d;    /* Secondary text */
+    --bg-gradient: linear-gradient(135deg, #fffdf5 0%, #fff8e1 100%);
+    --card-bg: rgba(255, 253, 245, 0.95);
     --card-border: rgba(233, 196, 106, 0.3);
-    --star-color: #343a40;
+    --star-color: #3a3a3a;
     --moon-display: none;
     --sun-display: block;
-    --star-glow: 0 0 10px rgba(233, 196, 106, 0.5);
-    --transition-time: 0.6s;
-    --transition-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --star-glow: 0 0 10px rgba(233, 196, 106, 0.4);
 }
 
-/* Update sun color to match yellow theme */
+/* Sun styling */
 .sun {
     background: #ffd43b;
-    box-shadow: 0 0 40px rgba(255, 212, 59, 0.7);
+    box-shadow: 0 0 40px rgba(255, 212, 59, 0.6);
 }
 
-/* Update galaxy background for light mode */
+/* Light mode galaxy effect */
 .galaxy-bg {
-    background: radial-gradient(circle at 20% 30%, rgba(233, 196, 106, 0.1) 0%, transparent 30%),
-                radial-gradient(circle at 80% 70%, rgba(255, 213, 79, 0.1) 0%, transparent 30%);
+    background: radial-gradient(circle at 20% 30%, rgba(255, 213, 79, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(233, 196, 106, 0.08) 0%, transparent 30%);
 }
 
-/* Keep the dark mode blue gradient we created earlier */
+/* ===== Dark Mode (Blue Gradient) ===== */
 [data-theme="dark"] {
-    --primary: #3498db;
-    --secondary: #2980b9;
-    --dark: #0d1b2a;
-    --light: #e0e1dd;
+    --primary: #3498db;           /* Azure blue */
+    --secondary: #5dade2;         /* Lighter blue */
+    --dark: #0d1b2a;             /* Navy background */
+    --light: #e0e1dd;            /* Off-white text */
     --text: #e0e1dd;
     --text-secondary: #a8b2c0;
     --bg-gradient: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
-    --card-bg: rgba(26, 54, 93, 0.5);
-    --card-border: rgba(41, 128, 185, 0.2);
+    --card-bg: rgba(26, 54, 93, 0.6);
+    --card-border: rgba(41, 128, 185, 0.25);
     --star-color: white;
     --moon-display: block;
     --sun-display: none;
-    --star-glow: 0 0 10px rgba(52, 152, 219, 0.7);
+    --star-glow: 0 0 10px rgba(52, 152, 219, 0.6);
 }
 
+/* Moon styling */
+.moon {
+    background: #e0f2fe;
+    box-shadow: 0 0 30px rgba(224, 242, 254, 0.5);
+}
+
+/* Dark mode galaxy effect */
+[data-theme="dark"] .galaxy-bg {
+    background: radial-gradient(circle at 20% 30%, rgba(52, 152, 219, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(41, 128, 185, 0.15) 0%, transparent 30%);
+}
         * {
             margin: 0;
             padding: 0;
@@ -648,7 +657,7 @@
     <div class="container">
         <!-- Profile Header -->
         <header class="profile-header">
-            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGGlJq5OrQVJQ/profile-displayphoto-shrink_400_400/B4DZY_u8oFHwAo-/0/1744825994408?e=1750291200&v=beta&t=ZqiIK5vYjovqAJYAPvlZ2_dZ2M2izxG0kZ-yKE5WONg" alt="Amogh Gorde" class="profile-photo">
+            <img src="https://drive.google.com/file/d/1BWdoLxdyYQiV_ImOAUOFZ9zlsYyfxr5H/view?usp=sharing" alt="Amogh Gorde" class="profile-photo">
             <h1 class="profile-name">AMOGH PANDURANG GORDE</h1>
             <h2 class="profile-title">Oracle Database Consultant</h2>
             <div class="social-links">
