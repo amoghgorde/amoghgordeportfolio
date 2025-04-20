@@ -375,3 +375,122 @@
       align-items: center;
     }
   }
+
+/* Add this to your existing CSS */
+html {
+    transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+body {
+    transition: 
+        background var(--transition-time) var(--transition-easing),
+        color var(--transition-time) var(--transition-easing);
+}
+
+[data-theme] {
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-toggle {
+    transition: 
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.3s ease,
+        background 0.6s ease,
+        border-color 0.6s ease;
+}
+
+.moon, .sun {
+    transition: 
+        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.6s ease,
+        background 0.6s ease,
+        opacity 0.6s ease;
+}
+
+.galaxy-bg {
+    transition: background 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.star {
+    transition: 
+        background 0.8s ease,
+        box-shadow 0.8s ease;
+}
+
+/* Update the existing theme toggle JavaScript */
+<script>
+    // Smoother Theme Toggle Functionality
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('i');
+    const body = document.body;
+    const moon = document.querySelector('.moon');
+    const sun = document.querySelector('.sun');
+    const stars = document.querySelectorAll('.star');
+    const galaxyBg = document.querySelector('.galaxy-bg');
+    
+    // Preload transition styles
+    document.documentElement.style.setProperty('--transition-time', '0.6s');
+    document.documentElement.style.setProperty('--transition-easing', 'cubic-bezier(0.22, 1, 0.36, 1)');
+    
+    // Theme switch with smoother transitions
+    function switchTheme(newTheme) {
+        return new Promise((resolve) => {
+            // Start transition
+            body.style.pointerEvents = 'none'; // Prevent interactions during transition
+            document.documentElement.style.setProperty('--transition-time', '0.6s');
+            
+            // Animate celestial bodies
+            if (newTheme === 'light') {
+                moon.style.transform = 'scale(0) rotate(180deg)';
+                setTimeout(() => {
+                    moon.style.display = 'none';
+                    sun.style.display = 'block';
+                    sun.style.transform = 'scale(0)';
+                    setTimeout(() => {
+                        sun.style.transform = 'scale(1) rotate(0deg)';
+                    }, 50);
+                }, 300);
+            } else {
+                sun.style.transform = 'scale(0) rotate(180deg)';
+                setTimeout(() => {
+                    sun.style.display = 'none';
+                    moon.style.display = 'block';
+                    moon.style.transform = 'scale(0)';
+                    setTimeout(() => {
+                        moon.style.transform = 'scale(1) rotate(0deg)';
+                    }, 50);
+                }, 300);
+            }
+            
+            // Change theme after celestial animation starts
+            setTimeout(() => {
+                body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+                
+                // Animate stars
+                stars.forEach(star => {
+                    star.style.transition = 'all 0.8s ease';
+                });
+                
+                // Enable interactions after transition
+                setTimeout(() => {
+                    body.style.pointerEvents = 'auto';
+                    resolve();
+                }, 600);
+            }, 150);
+        });
+    }
+    
+    themeToggle.addEventListener('click', async () => {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Animate the toggle icon
+        themeIcon.style.transform = 'rotate(180deg) scale(0.8)';
+        await switchTheme(newTheme);
+        themeIcon.style.transform = 'rotate(0deg) scale(1)';
+    });
+    
+    // Rest of your existing JavaScript...
+</script>
